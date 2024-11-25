@@ -1,8 +1,12 @@
 class MessagesController < ApplicationController
   def create
     @message = current_user.messages.build(message_params)
-    @message.save
-    ActionCable.server.broadcast("message", @message.as_json(include: :user))
+
+    if @message.save
+      ActionCable.server.broadcast("message", @message.as_json(include: :user))
+    else
+      render json: { error: "Failed to send message" }, status: :unprocessable_entity
+    end
   end
 
   private

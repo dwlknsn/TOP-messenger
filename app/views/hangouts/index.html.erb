@@ -16,13 +16,18 @@
   </div>
 
   <div id="message-form">
-    <%= form_with model: @message, local: false do |f| %>
+    <%= form_with model: @message, local: false,
+                  data: {
+                    controller: "message-form",
+                    message_form_target: "form",
+                    action: "turbo:submit-end->message-form#clearInput"
+                  }  do |f| %>
       <div class="field has-addons">
         <div class="control">
-          <%= f.text_field :body, id: 'message-input', class: 'input' %>
+          <%= f.text_field :body, id: "message-input", class: "input" %>
         </div>
         <div class="control">
-          <%= f.submit 'Send Message', class: 'button is-primary' %>
+          <%= f.submit "Send Message", class: "button is-primary" %>
         </div>
       </div>
     <% end %>
